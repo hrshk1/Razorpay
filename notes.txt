@@ -4,3 +4,4 @@ generate api key and secret and paste them in .env file
 now in terminal write npm i razorpay
 import razorpay in server.js
 now go to razorpay documentation in that payment>>payment gateway>>server integration>>nodejs>>integration steps
+now makes routes in app.js then make product routes and finally the product controller
