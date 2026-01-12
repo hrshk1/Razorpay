@@ -6,3 +6,45 @@ import razorpay in server.js
 now go to razorpay documentation in that payment>>payment gateway>>server integration>>nodejs>>integration steps
 now makes routes in app.js then make product routes and finally the product controller
 now designing the basic setup for payment
+
+on the pay button apply a onclick checkouthandler and design the basic function for now like this:
+ const checkoutHandler=async(amount)=>{
+        console.log(amount)
+        const {data:keyData} = await axios.get("/api/v1/getKey");
+        const{key}=keyData;
+        console.log(key);
+        const {data:orderData} = await axios.post("/api/v1/payment/process", { amount });
+        console.log(orderData)
+        const {order}=orderData;
+        console.log(order); 
+    }
+
+copy the script in index.html
+ <script src="https://checkout.razorpay.com/v1/checkout.js"></script> 
+ -->get the above script from razorpay documentation website
+
+ in the last of checkouthandler paste this option from razorpay docs:
+  const options = {
+        key: 'YOUR_KEY_ID', // Replace with your Razorpay key_id
+        amount: '50000', // Amount is in currency subunits.
+        currency: 'INR',
+        name: 'Acme Corp',
+        description: 'Test Transaction',
+        order_id: 'order_IluGWxBm9U8zJ8', // This is the order_id created in the backend
+        callback_url: 'http://localhost:3000/payment-success', // Your success URL
+        prefill: {
+          name: 'Gaurav Kumar',
+          email: 'gaurav.kumar@example.com',
+          contact: '9999999999'
+        },
+        theme: {
+          color: '#F37254'
+        },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+
+
+
+# now in the above code replace key and amount by your own key, and also the order.id (which will be available inside order that we just destructured). also replace the callback_url with whatever need to done at successful payement. in prefill you need to give customers details

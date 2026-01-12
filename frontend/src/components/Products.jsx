@@ -5,8 +5,33 @@ const Products = ({ products }) => {
   console.log(products);
     const checkoutHandler=async(amount)=>{
         console.log(amount)
-        const data = await axios.post("/api/v1/payment/process", { amount });
-        console.log(data)
+        const {data:keyData} = await axios.get("/api/v1/getKey");
+        const{key}=keyData;
+        console.log(key);
+        const {data:orderData} = await axios.post("/api/v1/payment/process", { amount });
+        console.log(orderData)
+        const {order}=orderData;
+        console.log(order); 
+         const options = {
+        key,
+        amount,
+        currency: 'INR',
+        name: 'Harsh coding',
+        description: 'Razorpay Payment',
+        order_id: order.id,
+        callback_url: '/api/v1/paymentVerification', // Your success URL
+        prefill: {
+          name: 'Gaurav Kumar',
+          email: 'gaurav.kumar@example.com',
+          contact: '9999999999'
+        },
+        theme: {
+          color: '#F37254'
+        },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
     }
   return (
     <div className="products-container">
