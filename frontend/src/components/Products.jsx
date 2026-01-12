@@ -1,9 +1,13 @@
 import React from 'react'
 import '../styles/products.css';
-
+import axios from 'axios';
 const Products = ({ products }) => {
   console.log(products);
-
+    const checkoutHandler=async(amount)=>{
+        console.log(amount)
+        const data = await axios.post("/api/v1/payment/process", { amount });
+        console.log(data)
+    }
   return (
     <div className="products-container">
       {products.map((item) => (
@@ -17,7 +21,7 @@ const Products = ({ products }) => {
           <p className="product-price">
             Price <strong>{item.price}</strong>
           </p>
-          <button className="pay-button">
+          <button onClick={()=>{checkoutHandler(item.price)}} className="pay-button">
             Pay ({item.price})/-
           </button>
         </div>
