@@ -48,3 +48,24 @@ copy the script in index.html
 
 
 # now in the above code replace key and amount by your own key, and also the order.id (which will be available inside order that we just destructured). also replace the callback_url with whatever need to done at successful payement. in prefill you need to give customers details
+
+now we need to craete the backend for payment successful verification but to make payment data accessible inside req.body we need to pass this middleware in the app.js
+app.use(express.urlencoded({extended:true}))
+
+//below is the payment verification and redirection code
+export const paymentVerification = async(req,res)=>{
+    const {razorpay_payment_id,razorpay_order_id,razorpay_signature}=req.body;
+    const body=razorpay_order_id+"|"+razorpay_payment_id;
+    const expectedSignature=crypto.createHmac("sha256",process.env.RAZORPAY_API_SECRET).update(body.toString()).digest("hex");
+    const isAuthentic=expectedSignature===razorpay_signature;
+    if(isAuthentic){
+        return res.redirect(`http://localhost:5173/payment/success?reference=${razorpay_payment_id}`);
+    }
+    else{
+        return res.status(400).json({
+            success:false,
+        });
+    }
+}
+
+and also lastly we'll make a payment success page for the frontend of the website
