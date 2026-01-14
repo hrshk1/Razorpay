@@ -26,7 +26,7 @@ const Products = ({ products }) => {
           contact: '9999999999'
         },
         theme: {
-          color: '#F37254'
+          color: '#54c9f3'
         },
       };
 
