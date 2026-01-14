@@ -69,3 +69,5 @@ export const paymentVerification = async(req,res)=>{
 }
 
 and also lastly we'll make a payment success page for the frontend of the website. for that make the routes in app.js for the paymentverification page an and make the payment success page. you can copy paste the whole PaymentSuccess page
+
+https://gemini.google.com/share/a99671ec8778 -->interview prep
